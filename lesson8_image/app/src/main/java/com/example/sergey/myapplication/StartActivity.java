@@ -24,8 +24,6 @@ import java.io.File;
 
 public class StartActivity extends AppCompatActivity {
     private ImageView imageView;
-    private Button base64;
-    private static final int FILE_SELECT_CODE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,41 +32,15 @@ public class StartActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Picasso");
         imageView = (ImageView) findViewById(R.id.imageView);
         Log.d("tag", "onCreate");
-        // base64 = (Button) findViewById(R.id.buttonToBase);
+
     }
 
     void onclick(View v) {
-
         Intent i = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         final int ACTIVITY_SELECT_IMAGE = 1234;
         startActivityForResult(i, ACTIVITY_SELECT_IMAGE);
-
-
-//            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//            intent.setType("*/*");
-//            intent.addCategory(Intent.CATEGORY_OPENABLE);
-//
-//            try {
-//                startActivityForResult(
-//                        Intent.createChooser(intent, "Select a Image"),
-//                        FILE_SELECT_CODE);
-//            } catch (android.content.ActivityNotFoundException ex) {
-        // if not install any file manager
-//                Toast.makeText(this, "Please install a File Manager.",
-//                        Toast.LENGTH_SHORT).show();
-//            }
-
-
-       /* String fileName = "image.jpeg";
-        File baseDir = null;
-        String storageState = Environment.getExternalStorageState();
-        if (storageState.equals(Environment.MEDIA_MOUNTED)) {
-            baseDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "");
-            Toast.makeText(this, baseDir + File.separator + fileName, Toast.LENGTH_LONG).show();
-        }*/
-
-    }
+   }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
