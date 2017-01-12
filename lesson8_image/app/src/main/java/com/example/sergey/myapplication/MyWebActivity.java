@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 
+import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebView.HitTestResult;
@@ -96,13 +97,18 @@ public class MyWebActivity extends AppCompatActivity {
                 alertDialog.show();
             }
         });
-        mywebView.loadUrl("https://www.google.com.ua/search?q=image&prmd=ivn&source=lnms&tbm=isch&sa=X&ved=0ahUKEwj43dKzpLPRAhXCXiwKHcYsCwkQ_AUIBygB&biw=384&bih=511&dpr=2");
-
+        mywebView.loadUrl("https://www.google.com.ua/search?q=imgur&hl=ru&biw=1680&bih=871&site=webhp&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjGr-W8ybzRAhVhApoKHZRDDDgQ_AUIBigB#hl=ru&tbm=isch&q=images");
         mywebView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onReceivedTouchIconUrl(WebView view, String url, boolean precomposed) {
                 super.onReceivedTouchIconUrl(view, url, precomposed);
                 Log.d(TAG, "onReceivedTouchIconUrl" + url + "\n" + precomposed);
+            }
+
+            @Override
+            public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+                Log.d(TAG, "onReceivedTouchIconUrl" + url /*+ "\n" + precomposed*/);
+                return super.onJsAlert(view, url, message, result);
             }
         });
 
@@ -115,12 +121,9 @@ public class MyWebActivity extends AppCompatActivity {
                     HitTestResult result = ((WebView) v).getHitTestResult();
                     if (result != null) {
                         int type = result.getType();
-                        String s = result.getExtra();
                         // Confirm type is an image
-
                         if (type == WebView.HitTestResult.IMAGE_TYPE || type == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {
-                            imageBase64 = s;
-
+                            imageBase64 = result.getExtra();
                             Log.d("tag", "imageBase64: " + imageBase64);
                             //Toast.makeText(MyWebActivity.this, url, Toast.LENGTH_LONG).show();
                         }
@@ -144,7 +147,7 @@ public class MyWebActivity extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save_image:
-                saveImage();
+                saveImage(imageBase64);
                 //editNote(info.id);
                 return true;
             default:
@@ -152,9 +155,9 @@ public class MyWebActivity extends AppCompatActivity {
         }
     }
 
-    private void saveImage() {
+    private void saveImage( String url) {
 
-        String url = imageBase64;
+
 
         try {
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));

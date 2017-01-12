@@ -31,12 +31,10 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
         getSupportActionBar().setTitle("Picasso");
         imageView = (ImageView) findViewById(R.id.imageView);
-        Log.d("tag", "onCreate");
-
-    }
+      }
 
     void onclick(View v) {
-        Intent i = new Intent(Intent.ACTION_PICK,
+          Intent i = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         final int ACTIVITY_SELECT_IMAGE = 1234;
         startActivityForResult(i, ACTIVITY_SELECT_IMAGE);
@@ -52,19 +50,18 @@ public class StartActivity extends AppCompatActivity {
             Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
             cursor.moveToFirst();
 
-//            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//            String filePath = cursor.getString(columnIndex);
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String filePath = cursor.getString(columnIndex);
 
-            String filePath = cursor.getString(cursor.getColumnIndex(filePathColumn[0]));
-            cursor.close();
+                  cursor.close();
             showPicture(filePath);
         }
 
     }
 
-    private void showPicture(String s) {
+    private void showPicture(String imagePath) {
         Picasso.with(this)
-                .load(new File(s))
+                .load(new File(imagePath))
                 .placeholder(R.drawable.ic_placeholder)
                 .error(R.drawable.ic_error)
                 .into(imageView);
