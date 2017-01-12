@@ -1,8 +1,10 @@
 package com.example.sergey.myapplication;
 
+import android.Manifest;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 
@@ -12,6 +14,9 @@ import android.graphics.Picture;
 import android.net.Uri;
 import android.os.Environment;
 
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -49,6 +54,8 @@ public class MyWebActivity extends AppCompatActivity {
     private ProgressDialog progressBar;
     private String imageBase64;
 
+
+
     /**
      * Called when the activity is first created.
      */
@@ -57,6 +64,12 @@ public class MyWebActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_my_web);
+
+//        int permissionCheck = ContextCompat.checkSelfPermission(this,
+//                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+
+
 
         this.mywebView = (WebView) findViewById(R.id.mywv);
         registerForContextMenu(mywebView);
@@ -97,7 +110,7 @@ public class MyWebActivity extends AppCompatActivity {
                 alertDialog.show();
             }
         });
-        mywebView.loadUrl("https://www.google.com.ua/search?q=imgur&hl=ru&biw=1680&bih=871&site=webhp&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjGr-W8ybzRAhVhApoKHZRDDDgQ_AUIBigB#hl=ru&tbm=isch&q=images");
+        mywebView.loadUrl("https://www.google.com.ua/search?q=imgur&hl=ru&biw=1680&bih=871&site=webhp&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjGr-W8ybzRAhVhApoKHZRDDDgQ_AUIBigB#hl=ru&tbm=isch&q=image&imgrc=TJR1QKD1ztBW8M%3A");
         mywebView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onReceivedTouchIconUrl(WebView view, String url, boolean precomposed) {
@@ -155,8 +168,7 @@ public class MyWebActivity extends AppCompatActivity {
         }
     }
 
-    private void saveImage( String url) {
-
+    private void saveImage(String url) {
 
 
         try {
@@ -170,7 +182,7 @@ public class MyWebActivity extends AppCompatActivity {
 
             request.setDestinationInExternalPublicDir(
                     Environment.DIRECTORY_DOWNLOADS,    //Download folder
-                    "image.jpeg");                        //Name of file
+                    "image.jpg");                        //Name of file
 
             DownloadManager dm = (DownloadManager) getSystemService(
                     DOWNLOAD_SERVICE);
