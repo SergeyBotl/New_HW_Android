@@ -29,30 +29,7 @@ import java.io.File;
 
 public class StartActivity extends AppCompatActivity {
     private ImageView imageView;
-    private  int MY_PERMISSION_WRITE_EXTERNAL_STORAGE=0;
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 0:
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                }
-                return;
-        }
-
-        // other 'case' lines to check for other
-        // permissions this app might request
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,40 +37,16 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
         getSupportActionBar().setTitle("Picasso");
         imageView = (ImageView) findViewById(R.id.imageView);
-
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_CONTACTS)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.READ_CONTACTS)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-            } else {
-
-                // No explanation needed, we can request the permission.
-
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_CONTACTS},
-                        MY_PERMISSION_WRITE_EXTERNAL_STORAGE);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
-        }
-      }
+    }
 
     void onclick(View v) {
-          Intent i = new Intent(Intent.ACTION_PICK,
+        Intent i = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         final int ACTIVITY_SELECT_IMAGE = 1234;
         startActivityForResult(i, ACTIVITY_SELECT_IMAGE);
-   }
+
+
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -108,7 +61,7 @@ public class StartActivity extends AppCompatActivity {
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             String filePath = cursor.getString(columnIndex);
 
-                  cursor.close();
+            cursor.close();
             showPicture(filePath);
         }
 
@@ -144,7 +97,6 @@ public class StartActivity extends AppCompatActivity {
                 startActivity(new Intent(Intent.ACTION_VIEW,
                         //Uri.parse("http://google.ru")));
                         Uri.parse("https://www.google.com.ua/search?q=image&prmd=ivn&source=lnms&tbm=isch&sa=X&ved=0ahUKEwj43dKzpLPRAhXCXiwKHcYsCwkQ_AUIBygB&biw=384&bih=511&dpr=2")));
-
                 return true;*/
             case R.id.acnion_to_my_web_view:
                 intent = new Intent(this, MyWebActivity.class);
@@ -154,6 +106,4 @@ public class StartActivity extends AppCompatActivity {
                 return true;
         }
     }
-
-
 }
